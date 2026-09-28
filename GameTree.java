@@ -1,7 +1,7 @@
 //KIT107 Assignment 3
 /**
  *	GameTree ADT
- *	@author <<Student IDs and Names HERE>>
+ *	@author <<Oliver Nogajski 770995>>
  *	@version <<Date HERE>>
  *	
  *	This file holds the GameTree ADT which is a
@@ -60,7 +60,7 @@ public class GameTree implements GameTreeInterface
 	 */
 	public GameTree(Object o)
 	{
-		/* COMPLETE ME */
+		root=new TNode(o,1,null);
 	}
 
 
@@ -83,7 +83,7 @@ public class GameTree implements GameTreeInterface
 	 */
 	public GameTree(Object o, int l, GameTree p)
 	{
-		/* COMPLETE ME */
+		root=new TNode(o,1,p,root);
 	}
 	
 	
@@ -144,9 +144,14 @@ public class GameTree implements GameTreeInterface
 	 */
 	public int getLevel() throws EmptyGameTreeException
 	{
-		/* COMPLETE ME */
-		
-		return -1; // REPLACE ME WITH YOUR IMPLEMENTATION	
+		if (isEmpty())
+		{
+			throw new EmptyGameTreeException();
+		}
+		else
+		{
+			return root.getlevel();
+		}
 	}
 	
 	
@@ -197,9 +202,18 @@ public class GameTree implements GameTreeInterface
 	 */
 	public GameTree getChild() throws EmptyGameTreeException
 	{
-		/* COMPLETE ME */
-		
-		return null; // REPLACE ME WITH YOUR IMPLEMENTATION	
+		GameTree g;
+
+		if (isEmpty())
+		{
+			throw new EmptyGameTreeException();
+		}
+		else
+		{
+			g=new GameTree();
+			g.root.rott.getChild();
+			return g;
+		}
 	}
 
 
@@ -216,9 +230,18 @@ public class GameTree implements GameTreeInterface
 	 */
 	public GameTree getSibling() throws EmptyGameTreeException
 	{
-		/* COMPLETE ME */
-		
-		return null; // REPLACE ME WITH YOUR IMPLEMENTATION	
+		GameTree g; 
+
+		if (isEmpty())
+		{
+			throw new EmptyGameTreeException();
+		}
+		else 
+		{
+			g=new GameTree();
+			g.root=root.getSibling();
+			return g;
+		}
 	}
 
 
@@ -264,7 +287,12 @@ public class GameTree implements GameTreeInterface
 	 */
 	public void setLevel(int l) throws EmptyGameTreeException
 	{
-		/* COMPLETE ME */
+		if (isEmpty())
+		{
+			throw new EmptyGameTreeException();
+		}
+
+		root.setLevel(l);
 	}
 	
 	
@@ -310,7 +338,12 @@ public class GameTree implements GameTreeInterface
 	 */
 	public void setChild(GameTree c) throws EmptyGameTreeException
 	{
-		/* COMPLETE ME */
+		if (isEmpty())
+		{
+			throw new EmptyGameTreeException();
+		}
+
+		root.setchild(c.root);
 	}
 	
 	
@@ -328,7 +361,12 @@ public class GameTree implements GameTreeInterface
 	 */
 	public void setSibling(GameTree s) throws EmptyGameTreeException
 	{
-		/* COMPLETE ME */
+		if (isEmpty())
+		{
+			throw new EmptyGameTreeException();
+		}
+
+		root.setSibling(s.root);
 	}
 	
 
@@ -402,7 +440,20 @@ public class GameTree implements GameTreeInterface
 	 */
 	public void generateLevelDF(Stack s,int tl)
 	{
-		/* COMPLETE ME */
+		GameTree t;
+		     final int LAST=HORIZONTAL.length-1;
+
+			 if ((! isEmpty()) && (getlevel() < tl))
+			 {
+				for (int i=LAST; i>=0; i--)
+				{
+					t=tryMove(i);
+					if (! t.isEmpty())
+					{
+						s.push(t);
+					}
+				}
+			 }
 	}
 	
 	
@@ -435,9 +486,35 @@ public class GameTree implements GameTreeInterface
 	 */
 	public GameTree buildGameDF(Grid b, Stack s, int tl)
 	{
-		/* COMPLETE ME */
-		
-		return null; // REPLACE ME WITH YOUR IMPLEMENTATION	
+		GameTree t;
+
+		if (isEmpty())
+		{
+			t=new GameTree(b);
+			return t.buildGameDF(b, s, tl);
+		}
+		else
+		{
+			if (getLevel() == tl)
+			{
+				return this;
+			}
+			else
+			{
+				generateLevelDF(s, tl);
+				if (s.isEmpty())
+				{
+					return new GameTree();
+				}
+				else
+				{
+					t=(GameTree) s.top();
+					s.pop();
+					incCount();
+					return t.buildGameDF(b, s, tl);
+				}
+			}
+		}
 	}				
 			
 				
@@ -461,7 +538,21 @@ public class GameTree implements GameTreeInterface
 	 */
 	public void generateLevelBF(Queue q, int tl)
 	{
-		/* COMPLETE ME */
+		GameTree t;
+		     final int LAST=HORIZONTAL.length-1;
+
+			 if ((! isEmpty()) && (getLevel() < tl))
+			 {
+
+				for (int i=0; i<=LAST; i++)
+				{
+					t=tryMove(i);
+					if (! t.isEmpty())
+					{
+						q.add(t);
+					}
+				}
+			 }
 	}
 	
 	
@@ -494,10 +585,37 @@ public class GameTree implements GameTreeInterface
 	 */
 	public GameTree buildGameBF(Grid b, Queue q, int tl)
 	{
-		/* COMPLETE ME */
-		
-		return null; // REPLACE ME WITH YOUR IMPLEMENTATION
-	}				
+		GameTree t;
+
+		if (isEmpty())
+		{
+			t=new GameTree(b);
+			return t.buildGameBF(b, q, tl);
+		}
+		else
+		{
+			if (getLevel() == tl)
+			 {
+				return this;
+			 }
+			else
+			 {
+				generateLevelBF(q, tl);
+				if (q.isEmpty())
+				{
+					return new GameTree();
+				}
+				else 
+				{
+					t=(GameTree) q.front();
+					q.remove();
+					incCount();
+					return t.buildGameBF(b, q, tl);
+				}	
+			 }
+		}
+	}	
+		 
 	
 
 	/**
