@@ -2,7 +2,7 @@
 /**
  *	Dimension ADT
  *
- *	@author <<Student IDs and Names HERE>>
+ *	@author <<Oliver Nogajski 770995>>
  *	@version <<Date HERE>>
  *	
  *	This file holds the Dimension ADT which represents
@@ -40,7 +40,8 @@ public class Dimension implements DimensionInterface
 	*/
 	public Dimension(int v, int h)
 	{
-		/* COMPLETE ME */
+		vert=v; 
+		    horiz=h;
 	}
 	
 	
@@ -57,7 +58,7 @@ public class Dimension implements DimensionInterface
 	*/
 	public void setVert(int v)
 	{
-		/* COMPLETE ME */
+		vert=v;
 	}
 	
 	
@@ -74,7 +75,7 @@ public class Dimension implements DimensionInterface
 	*/
 	public void setHoriz(int h)
 	{
-		/* COMPLETE ME */
+		horiz=h;
 	}
 	
 	
@@ -91,9 +92,7 @@ public class Dimension implements DimensionInterface
 	*/
 	public int getVert()
 	{
-		/* COMPLETE ME */
-		
-		return -1; // REPLACE ME WITH YOUR IMPLEMENTATION	
+		return vert;
 	}
 	
 	
@@ -109,9 +108,7 @@ public class Dimension implements DimensionInterface
 	*/
 	public int getHoriz()
 	{
-		/* COMPLETE ME */
-		
-		return -1; // REPLACE ME WITH YOUR IMPLEMENTATION	
+		return horiz;
 	}
 
 
