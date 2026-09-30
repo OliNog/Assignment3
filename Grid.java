@@ -2,7 +2,7 @@
 /**
  *	Grid ADT
  *
- *	@author <<Student IDs and Names HERE>>
+ *	@author <<Oliver Nogajski 770995>>
  *	@version <<Date HERE>>
  *	
  *	This file holds the Grid ADT which represents
@@ -66,7 +66,8 @@ public class Grid implements GridInterface, Cloneable
 	 */
 	public Grid(Dimension d)
 	{
-		/* COMPLETE ME */
+		dimension=d;
+		     initialiseGrid();
 	}
 	
 	
@@ -217,7 +218,18 @@ public class Grid implements GridInterface, Cloneable
 	 */
 	public void setSquare(Square s) throws IllegalGridException
 	{
-		/* COMPLETE ME */
+		Location l;
+
+		l=s.getLocation();
+		if (validMove(l))
+		{
+			board[l.getRow()-1][l.getColumn()-1]=s;
+		}
+		else
+		{
+			throw new IllegalGridException();
+		}
+		
 	}
 
 
@@ -239,9 +251,14 @@ public class Grid implements GridInterface, Cloneable
 	*/
 	public Square getSquare(Location l) throws IllegalGridException
 	{
-		/* COMPLETE ME */
-		
-		return null; // REPLACE ME WITH YOUR IMPLEMENTATION	
+		if (validMove(l))
+		{
+			return board[l.getRow()-1][l.getColumn()-1];
+		}
+		else 
+		{
+			throw new IllegalGridException();
+		}
 	}
 		
 		
@@ -259,7 +276,7 @@ public class Grid implements GridInterface, Cloneable
 	 */
 	public void setDimension(Dimension d) throws IllegalGridException
 	{
-		/* COMPLETE ME */
+		dimension=d;
 	}
 
 
@@ -274,9 +291,7 @@ public class Grid implements GridInterface, Cloneable
 	 */
 	public Dimension getDimension()
 	{
-		/* COMPLETE ME */
-		
-		return null; // REPLACE ME WITH YOUR IMPLEMENTATION	
+		return dimension;
 	}
 
 
@@ -293,7 +308,14 @@ public class Grid implements GridInterface, Cloneable
 	*/
 	public void setLocation(Location l) throws IllegalGridException
 	{
-		/* COMPLETE ME */
+		if (validMove(l))
+		{
+			loc=l;
+		}
+		else
+		{
+			throw new IllegalGridException();
+		}
 	}
 	
 	
@@ -308,9 +330,7 @@ public class Grid implements GridInterface, Cloneable
 	 */
 	public Location getLocation()
 	{
-		/* COMPLETE ME */
-		
-		return null; // REPLACE ME WITH YOUR IMPLEMENTATION	
+		return loc;	
 	}
 	
 	
@@ -330,7 +350,9 @@ public class Grid implements GridInterface, Cloneable
 	 */
 	public void occupySquare(Location l, Symbol s) throws IllegalGridException
 	{
-		/* COMPLETE ME */
+		s.setLocation(l);
+		getSquare(l).setSymbol(s);
+		loc=l;
 	}
 
 
@@ -354,9 +376,7 @@ public class Grid implements GridInterface, Cloneable
 	 */
 	public boolean squareOccupied(Location l) throws IllegalGridException
 	{
-		/* COMPLETE ME */
-		
-		return false; // REPLACE ME WITH YOUR IMPLEMENTATION	
+		return (! getSquare(l).isEmpty());
 	}
 	
 	
@@ -377,9 +397,7 @@ public class Grid implements GridInterface, Cloneable
 	 */
 	public Symbol getSymbol(Location l) throws IllegalGridException
 	{
-		/* COMPLETE ME */
-		
-		return null; // REPLACE ME WITH YOUR IMPLEMENTATION	
+		return getSquare(l).getSymbol();
 	}
 	
 	
@@ -399,9 +417,9 @@ public class Grid implements GridInterface, Cloneable
 	*/
 	public boolean validMove(Location l)
 	{
-		/* COMPLETE ME */
-		
-		return false; // REPLACE ME WITH YOUR IMPLEMENTATION	
+		//the location must lie within the ros and colums of the grid
+		return ((l.getRow() >= 1) && (l.getRow() <= getDimension().getVert())) &&
+		(l.getColumn() >= 1) && (l.getColumn() <= getDimension().getHoriz());
 	}
 
 
